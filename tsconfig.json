@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		},
+		"outDir": "./build",
+		"target": "es5",
+		"module": "commonjs",
+		"allowJs": true,
+		"declaration": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": false,
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true
+		// "isolatedModules": true
+	},
+	"include": ["./src/**/*.ts"],
+	"exclude": ["node_modules", "build", "test"]
+}
