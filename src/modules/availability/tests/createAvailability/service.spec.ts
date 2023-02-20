@@ -1,36 +1,44 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
+import { jest } from '@jest/globals';
 import * as path from 'path';
-import * as AvailabilityService from '@/modules/availability/services';
+import { IAvailability } from '../../types';
+import * as AvailabilityService from '../../services';
+import * as BaseServices from '../../services/base';
 
 const feature = loadFeature(path.join(__dirname, './use-case.feature'));
 defineFeature(feature, (test) => {
-	let startDate: Date;
-	let endDate: Date;
-	let availability: AvailabilityService.availabilityI;
+	let start: Date;
+	let end: Date;
+	let availability: IAvailability;
+	let days: boolean[];
 	test('Create an availibility', ({ given, when, then }) => {
+		//@ts-ignore
 		given('I provide valid availibility details', () => {
 			//Arrange
-			startDate = new Date();
+			start = new Date();
 			// end date is 1 hour after start date
-			endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
-			// Write code here that turns the phrase above into concrete actions
+			end = new Date(start.getTime() + 60 * 60 * 1000);
+			days = [true, false, true, false, true, true, false];
 		});
 
-		when('I attempt to create an availibility', () => {
+		when('I attempt to create an availibility', async () => {
 			//Act
-			availability = AvailabilityService.createAvailability(
-				startDate,
-				endDate
-			);
-			// Write code here that turns the phrase above into concrete actions
+			// create a spy on the function that connects to the database
+			const createOneSpy = jest.spyOn(BaseServices, 'createOne');
+			createOneSpy.mockReturnValue(Promise.resolve({ start, end, days }));
+
+			availability = await AvailabilityService.createAvailability({
+				start,
+				end,
+				days,
+			});
 		});
 
 		then('the availibility should be saved successfully', () => {
 			//Assert
 			expect(availability).toBeDefined();
-			expect(availability.startDate).toEqual(startDate);
-			expect(availability.endDate).toEqual(endDate);
-			// Write code here that turns the phrase above into concrete actions
+			expect(availability.start).toEqual(start);
+			expect(availability.end).toEqual(end);
 		});
 	});
 
