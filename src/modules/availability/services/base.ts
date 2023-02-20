@@ -1,14 +1,4 @@
-export interface availabilityI {
-	startDate: Date;
-	endDate: Date;
-}
+import { BaseServices } from '@/modules/_shared';
+import Model from '../model';
 
-export const createAvailability = (
-	startDate: Date,
-	endDate: Date
-): availabilityI => {
-	return {
-		startDate,
-		endDate,
-	};
-};
+export const { createOne } = BaseServices(Model);
