@@ -14,12 +14,12 @@
 
 -   [x] create service
 -   [x] test
--   [ ] POST /availabilities
--   [ ] test
--   [ ] delete service
--   [ ] test
--   [ ] DELETE /availabilities/:id
--   [ ] test
+-   [x] POST /availabilities
+-   [x] test
+-   [x] delete service
+-   [x] test
+-   [x] DELETE /availabilities/:id
+-   [x] test
 
 ### Reservation
 
