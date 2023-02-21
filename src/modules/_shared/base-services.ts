@@ -1,10 +1,9 @@
-import { PaginateModel, Document, HydratedDocumentFromSchema } from 'mongoose';
+import { PaginateModel } from 'mongoose';
 
 type ModelType = PaginateModel<any>;
 export type BaseServiceFnType = (
 	Model: ModelType,
-	data: IBaseServiceDataProp,
-	config: IBaseServiceConfigProp
+	data: IBaseServiceDataProp
 ) => Promise<any>;
 
 export interface IBaseServiceDataProp {
@@ -18,51 +17,32 @@ export interface IBaseServiceDataProp {
 	limit?: number;
 }
 
-export interface IBaseServiceConfigProp {
-	throwIfNoResult?: boolean;
-	decorator?(data: object): object;
-}
-
-const defaultConfig = {
-	throwIfNoResult: false,
-	decorator: (data: Document) => data,
-};
-
-function _mergeDefaultConfig(config: IBaseServiceConfigProp = defaultConfig) {
-	return {
-		...defaultConfig,
-		...config,
-	};
-}
-
 export const createOne: BaseServiceFnType = async (
 	Model: ModelType,
-	data: IBaseServiceDataProp,
-	config: IBaseServiceConfigProp
+	data: IBaseServiceDataProp
 ) => {
-	let { payload, selection: _selection, populate } = data;
+	let { payload } = data;
 
-	const { decorator } = _mergeDefaultConfig(config);
 	const result = await Model.create(payload);
-
-	if (result) {
-		return decorator(result);
-	}
 
 	return result;
 };
 
+const deleteById = async (Model: ModelType, data: IBaseServiceDataProp) => {
+	const { id, selection } = data;
+
+	return Model.findByIdAndDelete(id).select(selection);
+};
+
 const wrapHelper =
 	(Model: ModelType, fn: BaseServiceFnType) =>
-	async (
-		data: IBaseServiceDataProp,
-		config: IBaseServiceConfigProp = defaultConfig
-	) => {
-		return fn(Model, data, config);
+	async (data: IBaseServiceDataProp) => {
+		return fn(Model, data);
 	};
 
 export default function BaseService(Model: ModelType) {
 	return {
 		createOne: wrapHelper(Model, createOne),
+		deleteById: wrapHelper(Model, deleteById),
 	};
 }
