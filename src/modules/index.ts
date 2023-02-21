@@ -1,2 +1,3 @@
 import AvailabilityModule from './availability';
-export default [AvailabilityModule];
+import ReservationModule from './reservation';
+export default [AvailabilityModule, ReservationModule];
