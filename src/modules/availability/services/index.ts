@@ -1,5 +1,5 @@
 import Joi, { Schema } from 'joi';
-import * as BaseServices from './base';
+import * as BaseService from './base';
 
 export const createAvailability = (data: any) => {
 	// validate data
@@ -10,9 +10,9 @@ export const createAvailability = (data: any) => {
 	});
 	const { error } = schema.validate(data);
 	if (error) {
-		throw new Error('Invalid data');
+		throw new Error('Invalid details');
 	}
 
 	// create availability
-	return BaseServices.createOne({ payload: data });
+	return BaseService.createOne({ payload: data });
 };
