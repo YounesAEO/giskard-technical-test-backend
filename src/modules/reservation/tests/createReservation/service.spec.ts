@@ -7,7 +7,7 @@ import * as BaseService from '../../services/base';
 
 const feature = loadFeature(path.join(__dirname, './use-case.feature'));
 defineFeature(feature, (test) => {
-	test('Create an reservation', ({ given, when, then }) => {
+	test('Create a reservation', ({ given, when, then }) => {
 		let start: Date;
 		let end: Date;
 		let reservation: IReservation;
@@ -22,7 +22,7 @@ defineFeature(feature, (test) => {
 			title = 'Test';
 		});
 
-		when('I attempt to create an reservation', async () => {
+		when('I attempt to create a reservation', async () => {
 			//Act
 			// create a spy on the function that connects to the database
 			const createOneSpy = jest.spyOn(BaseService, 'createOne');
@@ -69,7 +69,7 @@ defineFeature(feature, (test) => {
 			title = '';
 		});
 
-		when('I attempt to create an reservation', async () => {
+		when('I attempt to create a reservation', async () => {
 			//Act
 			try {
 				// create a spy on the function that connects to the database
