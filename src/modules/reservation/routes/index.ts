@@ -18,4 +18,18 @@ router.post('/', async (req, res, next) => {
 		next(error);
 	}
 });
+
+router.delete('/:id', async (req, res, next) => {
+	try {
+		const id = req.params.id;
+		const reservation = await ReservationService.deleteReservation({ id });
+
+		return res.status(200).json({
+			success: true,
+			data: reservation,
+		});
+	} catch (error) {
+		next(error);
+	}
+});
 export default router;

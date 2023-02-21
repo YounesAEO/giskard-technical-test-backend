@@ -55,6 +55,7 @@ async function start() {
 			error.status = [
 				'Invalid details',
 				'No availability found',
+				'No reservation found',
 			].includes(error.message)
 				? 400
 				: error?.status;
