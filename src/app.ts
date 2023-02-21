@@ -52,8 +52,12 @@ async function start() {
 			res: express.Response,
 			__: express.NextFunction
 		) => {
-			error.status =
-				error.message === 'Invalid details' ? 400 : error?.status;
+			error.status = [
+				'Invalid details',
+				'No availability found',
+			].includes(error.message)
+				? 400
+				: error?.status;
 			res.status(error.status || 500).json({
 				success: false,
 				message: error.message || 'Something went wrong',
