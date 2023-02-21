@@ -16,4 +16,18 @@ router.post('/', async (req, res, next) => {
 		next(error);
 	}
 });
+
+router.delete('/:id', async (req, res, next) => {
+	try {
+		const id = req.params.id;
+		const activity = await AvailabilityService.deleteAvailability({ id });
+
+		return res.status(200).json({
+			success: true,
+			data: activity,
+		});
+	} catch (error) {
+		next(error);
+	}
+});
 export default router;
