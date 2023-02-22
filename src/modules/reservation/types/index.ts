@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 export interface IReservation extends Document {
 	title: string;
 	email: string;
+	name: string;
 	start: Date;
 	end: Date;
 }
