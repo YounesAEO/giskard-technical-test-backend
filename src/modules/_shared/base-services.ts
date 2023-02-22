@@ -1,6 +1,6 @@
-import { PaginateModel } from 'mongoose';
+import { Model } from 'mongoose';
 
-type ModelType = PaginateModel<any>;
+type ModelType = Model<any>;
 export type BaseServiceFnType = (
 	Model: ModelType,
 	data: IBaseServiceDataProp
@@ -9,12 +9,8 @@ export type BaseServiceFnType = (
 export interface IBaseServiceDataProp {
 	id?: string;
 	query?: object;
-	sort?: object | string;
 	payload?: any;
-	selection?: string[] | object;
-	populate?: string[] | object;
-	page?: number;
-	limit?: number;
+	sort?: string[] | object;
 }
 
 export const createOne: BaseServiceFnType = async (
@@ -29,9 +25,24 @@ export const createOne: BaseServiceFnType = async (
 };
 
 const deleteById = async (Model: ModelType, data: IBaseServiceDataProp) => {
-	const { id, selection } = data;
+	const { id } = data;
 
-	return Model.findByIdAndDelete(id).select(selection);
+	return Model.findByIdAndDelete(id);
+};
+
+const createMany = async (Model: ModelType, data: IBaseServiceDataProp) => {
+	let { payload } = data;
+
+	const result = await Model.insertMany(payload);
+	return result;
+};
+
+const fetchAll = async (Model: ModelType, data: IBaseServiceDataProp) => {
+	const { query, sort } = data;
+	//@ts-ignore
+	return Model.find(query, null, {
+		sort: sort || { createdAt: -1 },
+	});
 };
 
 const wrapHelper =
@@ -44,5 +55,7 @@ export default function BaseService(Model: ModelType) {
 	return {
 		createOne: wrapHelper(Model, createOne),
 		deleteById: wrapHelper(Model, deleteById),
+		createMany: wrapHelper(Model, createMany),
+		fetchAll: wrapHelper(Model, fetchAll),
 	};
 }
