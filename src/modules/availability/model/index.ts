@@ -1,33 +1,38 @@
 import mongoose from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate-v2';
 import { IAvailability } from '../types';
 
 const availabilitySchema = new mongoose.Schema<IAvailability>(
 	{
-		start: { type: Date, required: true },
-		end: { type: Date, required: true },
-		days: { type: [Boolean], length: 7, required: true },
+		start: {
+			type: new mongoose.Schema(
+				{
+					hours: { type: Number, required: true },
+					minutes: { type: Number, required: true },
+				},
+				{ _id: false }
+			),
+			required: true,
+		},
+		end: {
+			type: new mongoose.Schema(
+				{
+					hours: { type: Number, required: true },
+					minutes: { type: Number, required: true },
+				},
+				{ _id: false }
+			),
+			required: true,
+		},
+		days: { type: [Number], length: 7, required: true },
+		limitStart: { type: Date, required: false },
+		limitEnd: { type: Date, required: false },
 	},
 	{ timestamps: true }
 );
 
-availabilitySchema.plugin(mongoosePaginate);
-
-const Availability = mongoose.model<
-	IAvailability,
-	mongoose.PaginateModel<IAvailability>
->('Availability', availabilitySchema);
+const Availability = mongoose.model<IAvailability>(
+	'Availability',
+	availabilitySchema
+);
 
 export default Availability;
-
-// const availability = {
-// 	start: new Date(),
-// 	end: new Date(),
-// 	days: [],
-// };
-
-// const range =
-// 	{
-// 		startTime: new Date(),
-// 		endTime: new Date(),
-// 	} || null;
