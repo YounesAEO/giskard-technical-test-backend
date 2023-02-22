@@ -20,10 +20,16 @@ function apiRoutesLoader(): Router {
 	return router;
 }
 
-async function start() {
+async function start(env = 'development') {
 	// load database
-	const databaseURI =
-		process.env.MONGODB_URI || 'mongodb://localhost:27017/test';
+	const DB_ENV_URIS = {
+		development: 'mongodb://localhost:27017/dev',
+		test: 'mongodb://localhost:27017/test',
+		production: process.env.MONGODB_URI,
+	};
+
+	// @ts-ignore
+	const databaseURI = DB_ENV_URIS[env];
 
 	await mongoose.connect(databaseURI);
 	console.log('✅ DB loaded and connected!');
@@ -67,13 +73,17 @@ async function start() {
 	);
 
 	// start server
-	server = app.listen(process.env.PORT, () => {
-		console.log(`
-        ################################################
-        🛡️  Server listening on port: ${process.env.PORT} 🛡️ 
-        ################################################
-      `);
-	});
+	if (process.env.NODE_ENV !== 'test') {
+		server = app.listen(process.env.PORT, () => {
+			console.log(`
+			################################################
+			🛡️  Server listening on port: ${process.env.PORT} 🛡️ 
+			################################################
+		  `);
+		});
+	} else {
+		server = app.listen(0);
+	}
 }
 
 function stop() {

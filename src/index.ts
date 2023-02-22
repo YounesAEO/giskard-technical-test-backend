@@ -1,3 +1,4 @@
 import { start } from './app';
 
-start();
+const env = process.env.NODE_ENV || 'development';
+start(env);
