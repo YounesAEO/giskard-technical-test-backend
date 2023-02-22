@@ -3,16 +3,16 @@ import { start, stop, app } from '@/app';
 
 describe('POST /api/availabilities', () => {
 	beforeAll(async () => {
-		await start();
+		await start('test');
 	});
 
 	it('should return 200 OK', () => {
 		return request(app)
 			.post('/api/availabilities')
 			.send({
-				start: '2021-01-01T00:00:00.000Z',
-				end: '2021-01-01T00:00:00.000Z',
-				days: [true, true, true, true, true, true, true],
+				start: { hours: 9, minutes: 0 },
+				end: { hours: 17, minutes: 0 },
+				days: [1, 2, 3],
 			})
 			.expect(200)
 			.then((response: any) =>
@@ -20,9 +20,9 @@ describe('POST /api/availabilities', () => {
 					expect.objectContaining({
 						success: true,
 						data: expect.objectContaining({
-							start: '2021-01-01T00:00:00.000Z',
-							end: '2021-01-01T00:00:00.000Z',
-							days: [true, true, true, true, true, true, true],
+							start: { hours: 9, minutes: 0 },
+							end: { hours: 17, minutes: 0 },
+							days: [1, 2, 3],
 						}),
 					})
 				)
@@ -33,9 +33,9 @@ describe('POST /api/availabilities', () => {
 		return request(app)
 			.post('/api/availabilities')
 			.send({
-				start: 'test',
-				end: '2021-01-01T00:00:00.000Z',
-				days: [true, true, true, true, true, true, true],
+				start: 'wrong',
+				end: { hours: 17, minutes: 0 },
+				days: [1, 2, 3],
 			})
 			.expect(400)
 			.then((response: any) =>

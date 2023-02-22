@@ -5,7 +5,7 @@ describe('DELETE /api/availabilities', () => {
 	let id: string;
 	beforeAll(async () => {
 		id = '63f41547d2903cae7238b7bb';
-		await start();
+		await start('test');
 	});
 
 	it('should return 200 OK', () => {

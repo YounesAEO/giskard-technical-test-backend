@@ -3,9 +3,9 @@ import { start, stop, app } from '@/app';
 
 describe('DELETE /api/reservations/:id', () => {
 	let id: string;
-	beforeEach(async () => {
+	beforeAll(async () => {
 		id = '63f48b97df1cd47815d59347';
-		await start();
+		await start('test');
 	});
 
 	it('should return 200 OK', () => {
@@ -36,7 +36,7 @@ describe('DELETE /api/reservations/:id', () => {
 			);
 	});
 
-	beforeEach(() => {
+	afterAll(() => {
 		stop();
 	});
 });

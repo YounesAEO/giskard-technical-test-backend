@@ -2,8 +2,8 @@ import request from 'supertest';
 import { start, stop, app } from '@/app';
 
 describe('POST /api/reservations', () => {
-	beforeEach(async () => {
-		await start();
+	beforeAll(async () => {
+		await start('test');
 	});
 
 	it('should return 200 OK', () => {
@@ -49,7 +49,7 @@ describe('POST /api/reservations', () => {
 			);
 	});
 
-	beforeEach(() => {
+	afterAll(() => {
 		stop();
 	});
 });
