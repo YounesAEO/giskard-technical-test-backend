@@ -12,6 +12,7 @@
 
 ### Availability
 
+-   [x] create model
 -   [x] create service
 -   [x] test
 -   [x] POST /availabilities
@@ -20,14 +21,17 @@
 -   [x] test
 -   [x] DELETE /availabilities/:id
 -   [x] test
+-   [ ] createOrUpdate Service
 
 ### Reservation
 
--   [ ] create service
--   [ ] test
--   [ ] POST /reservations
--   [ ] test
--   [ ] delete service
--   [ ] test
--   [ ] DELETE /reservations/:id
--   [ ] test
+-   [x] create model
+-   [x] create service
+-   [x] test
+-   [x] POST /reservations
+-   [x] test
+-   [x] delete service
+-   [x] test
+-   [x] DELETE /reservations/:id
+-   [x] test
+-   [ ] DELETE /reservation given email
