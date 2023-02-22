@@ -8,16 +8,15 @@ import * as BaseService from '../../services/base';
 const feature = loadFeature(path.join(__dirname, './use-case.feature'));
 defineFeature(feature, (test) => {
 	test('Create an availibility', ({ given, when, then }) => {
-		let start: Date;
-		let end: Date;
+		let start: object;
+		let end: object;
 		let availability: IAvailability;
-		let days: boolean[];
+		let days: number[];
 		given('I provide valid availibility details', () => {
 			//Arrange
-			start = new Date();
-			// end date is 1 hour after start date
-			end = new Date(start.getTime() + 60 * 60 * 1000);
-			days = [true, false, true, false, true, true, false];
+			start = { hours: 9, minutes: 0 };
+			end = { hours: 17, minutes: 0 };
+			days = [1, 2, 3];
 		});
 
 		when('I attempt to create an availibility', async () => {
@@ -48,17 +47,16 @@ defineFeature(feature, (test) => {
 	});
 
 	test('Invalid availibility details', ({ given, when, then }) => {
-		let start: Date;
-		let end: Date;
+		let start: object;
+		let end: object;
 		let availability: IAvailability;
-		let days: boolean[];
+		let days: number[];
 		let err: Error;
 		given('I provide invalid start or end time', () => {
 			//Arrange
-			start = new Date('invalid');
-			// end date is 1 hour after start date
-			end = new Date(start.getTime() + 60 * 60 * 1000);
-			days = [];
+			start = { invalid: 'invalid' };
+			end = { invalid: 'invalid' };
+			days = [1, 2, 3];
 		});
 
 		when('I attempt to create an availibility', async () => {
