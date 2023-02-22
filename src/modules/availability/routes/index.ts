@@ -3,14 +3,48 @@ import * as AvailabilityService from '../services';
 
 const router = Router();
 
-// add route to create a new availability
-router.post('/', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
 	try {
-		const activity = await AvailabilityService.createAvailability(req.body);
+		const query = req.query;
+		const availabilities = await AvailabilityService.fetchAllAvailabilities(
+			{
+				query,
+			}
+		);
 
 		return res.status(200).json({
 			success: true,
-			data: activity,
+			data: availabilities,
+		});
+	} catch (error) {
+		next(error);
+	}
+});
+
+router.post('/', async (req, res, next) => {
+	try {
+		const availability = await AvailabilityService.createAvailability(
+			req.body
+		);
+
+		return res.status(200).json({
+			success: true,
+			data: availability,
+		});
+	} catch (error) {
+		next(error);
+	}
+});
+
+router.post('/bulk', async (req, res, next) => {
+	try {
+		const availabilities = await AvailabilityService.createAvailabilities(
+			req.body
+		);
+
+		return res.status(200).json({
+			success: true,
+			data: availabilities,
 		});
 	} catch (error) {
 		next(error);
@@ -20,14 +54,17 @@ router.post('/', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
 	try {
 		const id = req.params.id;
-		const activity = await AvailabilityService.deleteAvailability({ id });
+		const availability = await AvailabilityService.deleteAvailability({
+			id,
+		});
 
 		return res.status(200).json({
 			success: true,
-			data: activity,
+			data: availability,
 		});
 	} catch (error) {
 		next(error);
 	}
 });
+
 export default router;
