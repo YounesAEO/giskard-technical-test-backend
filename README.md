@@ -1,4 +1,3 @@
-<base target="_blank">
 # Giskard AI Technical Test
 
 -   The backend implementation of Giskard AI technical [test](https://giskard.notion.site/Technical-exercise-Full-stack-software-engineer-0c3ff2e612994e2183abd7b7330b5f9a)
