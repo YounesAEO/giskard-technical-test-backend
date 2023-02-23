@@ -37,8 +37,12 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
 	try {
+		const { email } = req.query;
 		const id = req.params.id;
-		const reservation = await ReservationService.deleteReservation({ id });
+		const reservation = await ReservationService.deleteReservation({
+			id,
+			email,
+		});
 
 		return res.status(200).json({
 			success: true,

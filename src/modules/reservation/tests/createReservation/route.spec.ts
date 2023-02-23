@@ -14,6 +14,7 @@ describe('POST /api/reservations', () => {
 				end: '2021-01-01T01:00:00.000Z',
 				email: 'y.abouelomoum09@gmail.com',
 				title: 'test',
+				name: 'Youssef',
 			})
 			.expect(200)
 			.then((response: any) =>
@@ -25,6 +26,7 @@ describe('POST /api/reservations', () => {
 							end: '2021-01-01T01:00:00.000Z',
 							email: 'y.abouelomoum09@gmail.com',
 							title: 'test',
+							name: 'Youssef',
 						}),
 					})
 				)
@@ -39,6 +41,7 @@ describe('POST /api/reservations', () => {
 				end: '2021-01-01T01:00:00.000Z',
 				email: '',
 				title: 'test',
+				name: 'Youssef',
 			})
 			.expect(400)
 			.then((response: any) =>

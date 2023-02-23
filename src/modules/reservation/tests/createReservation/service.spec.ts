@@ -13,6 +13,7 @@ defineFeature(feature, (test) => {
 		let reservation: IReservation;
 		let email: string;
 		let title: string;
+		let name: string;
 		given('I provide valid reservation details', () => {
 			//Arrange
 			start = new Date();
@@ -20,6 +21,7 @@ defineFeature(feature, (test) => {
 			end = new Date(start.getTime() + 60 * 60 * 1000);
 			email = 'y.abouelomoum09@gmail.com';
 			title = 'Test';
+			name = 'Youssef';
 		});
 
 		when('I attempt to create a reservation', async () => {
@@ -27,7 +29,7 @@ defineFeature(feature, (test) => {
 			// create a spy on the function that connects to the database
 			const createOneSpy = jest.spyOn(BaseService, 'createOne');
 			createOneSpy.mockReturnValue(
-				Promise.resolve({ start, end, email, title })
+				Promise.resolve({ start, end, email, title, name })
 			);
 
 			reservation = await createReservation({
@@ -35,6 +37,7 @@ defineFeature(feature, (test) => {
 				end,
 				email,
 				title,
+				name,
 			});
 		});
 
@@ -45,6 +48,7 @@ defineFeature(feature, (test) => {
 			expect(reservation.end).toEqual(end);
 			expect(reservation.email).toEqual(email);
 			expect(reservation.title).toEqual(title);
+			expect(reservation.name).toEqual(name);
 		});
 
 		afterEach(() => {
@@ -59,6 +63,7 @@ defineFeature(feature, (test) => {
 		let reservation: IReservation;
 		let email: string;
 		let title: string;
+		let name: string;
 		let err: Error;
 		given('I provide invalid details', () => {
 			//Arrange
@@ -67,6 +72,7 @@ defineFeature(feature, (test) => {
 			end = new Date(start.getTime() + 60 * 60 * 1000);
 			email = '';
 			title = '';
+			name = '';
 		});
 
 		when('I attempt to create a reservation', async () => {
@@ -75,7 +81,7 @@ defineFeature(feature, (test) => {
 				// create a spy on the function that connects to the database
 				const createOneSpy = jest.spyOn(BaseService, 'createOne');
 				createOneSpy.mockReturnValue(
-					Promise.resolve({ start, end, email, title })
+					Promise.resolve({ start, end, email, title, name })
 				);
 
 				reservation = await createReservation({
@@ -83,6 +89,7 @@ defineFeature(feature, (test) => {
 					end,
 					email,
 					title,
+					name,
 				});
 			} catch (error: any) {
 				err = error;
