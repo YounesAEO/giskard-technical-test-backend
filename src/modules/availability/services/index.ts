@@ -1,5 +1,4 @@
 import Joi, { Schema } from 'joi';
-import mongoose from 'mongoose';
 import * as BaseService from './base';
 
 export const fetchAllAvailabilities = (data: any) => {
@@ -67,10 +66,12 @@ export const createOrUpdateAvailabilities = async (data: any) => {
 
 	const { availabilities, limit } = data;
 
+	const count = await BaseService.countDouments({});
+
 	// drop collection
 	const result = await BaseService.deleteAll({});
 
-	if (!result.aknowledged) {
+	if (!result.acknowledged && count > 0) {
 		throw new Error('Could not save changes');
 	}
 

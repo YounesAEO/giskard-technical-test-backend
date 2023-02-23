@@ -49,6 +49,13 @@ const fetchAll = async (Model: ModelType, data: IBaseServiceDataProp) => {
 	});
 };
 
+const countDouments = async (Model: ModelType, data: IBaseServiceDataProp) => {
+	const { query } = data;
+
+	//@ts-ignore
+	return Model.countDocuments(query);
+};
+
 const wrapHelper =
 	(Model: ModelType, fn: BaseServiceFnType) =>
 	async (data: IBaseServiceDataProp) => {
@@ -62,5 +69,6 @@ export default function BaseService(Model: ModelType) {
 		createMany: wrapHelper(Model, createMany),
 		fetchAll: wrapHelper(Model, fetchAll),
 		deleteAll: wrapHelper(Model, deleteAll),
+		countDouments: wrapHelper(Model, countDouments),
 	};
 }
