@@ -36,17 +36,21 @@ export const deleteReservation = async (data: any) => {
 	// validate data
 	const schema: Schema = Joi.object({
 		id: Joi.string().alphanum().length(24).required(),
+		email: Joi.string().email().required(),
 	});
 	const { error } = schema.validate(data);
 	if (error) {
 		throw new Error('Invalid details');
 	}
 
-	const reservation = await BaseService.deleteById({ id: data.id });
+	// check if document exists and has the same email
+	const reservation = await BaseService.fetchAll({
+		query: { _id: data.id, email: data.email },
+	});
 
 	if (!reservation) {
 		throw new Error('No reservation found');
 	}
 
-	return reservation;
+	return BaseService.deleteById({ id: data.id });
 };
