@@ -35,3 +35,12 @@
 -   [x] DELETE /reservations/:id
 -   [x] test
 -   [x] DELETE /reservation given email
+
+### To Run Locally
+
+1. clone repo: `git clone https://github.com/YounesAEO/giskard-technical-test-backend.git`
+2. install dependencies: `npm install`
+3. add the follwing env variables in a .env file:
+   `MONGODB_URI=LINK_TO_MONGODB_INSTANCE`
+   `PORT=`
+4. run project: `npm run dev`
