@@ -1,4 +1,5 @@
 import Joi, { Schema } from 'joi';
+import mongoose from 'mongoose';
 import * as BaseService from './base';
 
 export const fetchAllAvailabilities = (data: any) => {
@@ -37,7 +38,7 @@ export const createAvailability = (data: any) => {
 	return BaseService.createOne({ payload: data });
 };
 
-export const createAvailabilities = (data: any) => {
+export const createOrUpdateAvailabilities = async (data: any) => {
 	// validate data
 	const schema: Schema = Joi.object({
 		availabilities: Joi.array().items(
@@ -50,8 +51,11 @@ export const createAvailabilities = (data: any) => {
 					hours: Joi.number().required(),
 					minutes: Joi.number().required(),
 				}).required(),
-				days: Joi.array().items(Joi.number()).max(7).required(),
-			})
+				days: Joi.array()
+					.items(Joi.number().min(1).max(7))
+					.max(7)
+					.required(),
+			}).unknown(true)
 		),
 		limit: Joi.array().items(Joi.date()).length(2),
 	});
@@ -62,18 +66,23 @@ export const createAvailabilities = (data: any) => {
 	}
 
 	const { availabilities, limit } = data;
-	const payload = limit
-		? availabilities.map((availability: any) => {
-				return {
-					...availability,
-					limitStart: limit[0],
-					limitEnd: limit[1],
-				};
-		  })
-		: availabilities;
 
-	// create availabilities
-	return BaseService.createMany({ payload });
+	// drop collection
+	const result = await BaseService.deleteAll({});
+
+	if (!result.aknowledged) {
+		throw new Error('Could not save changes');
+	}
+
+	return BaseService.createMany({
+		payload: availabilities.map((availability: any) => {
+			return {
+				...availability,
+				limitStart: limit ? limit[0] : null,
+				limitEnd: limit ? limit[1] : null,
+			};
+		}),
+	});
 };
 
 export const deleteAvailability = async (data: any) => {

@@ -37,6 +37,10 @@ const createMany = async (Model: ModelType, data: IBaseServiceDataProp) => {
 	return result;
 };
 
+export const deleteAll = async (Model: ModelType) => {
+	return Model.deleteMany({});
+};
+
 const fetchAll = async (Model: ModelType, data: IBaseServiceDataProp) => {
 	const { query, sort } = data;
 	//@ts-ignore
@@ -57,5 +61,6 @@ export default function BaseService(Model: ModelType) {
 		deleteById: wrapHelper(Model, deleteById),
 		createMany: wrapHelper(Model, createMany),
 		fetchAll: wrapHelper(Model, fetchAll),
+		deleteAll: wrapHelper(Model, deleteAll),
 	};
 }

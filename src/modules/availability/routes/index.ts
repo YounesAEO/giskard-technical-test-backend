@@ -38,9 +38,8 @@ router.post('/', async (req, res, next) => {
 
 router.post('/bulk', async (req, res, next) => {
 	try {
-		const availabilities = await AvailabilityService.createAvailabilities(
-			req.body
-		);
+		const availabilities =
+			await AvailabilityService.createOrUpdateAvailabilities(req.body);
 
 		return res.status(200).json({
 			success: true,
