@@ -21,7 +21,7 @@
 -   [x] test
 -   [x] DELETE /availabilities/:id
 -   [x] test
--   [ ] createOrUpdate Service
+-   [x] createOrUpdate Service
 
 ### Reservation
 
@@ -34,4 +34,4 @@
 -   [x] test
 -   [x] DELETE /reservations/:id
 -   [x] test
--   [ ] DELETE /reservation given email
+-   [x] DELETE /reservation given email
